@@ -70,7 +70,9 @@ pipeline {
             }
         }
         stage('Database docker build') {
-            steps {withCredentials([usernameColonPassword(credentialsId: 'ddiaz-harbor-auth', variable: 'HARBOR-AUTH')]) {
+            steps {
+                echo "Building database image"
+            withCredentials([usernameColonPassword(credentialsId: 'ddiaz-harbor-auth', variable: 'HARBOR-AUTH')]) {
                     script {
                         sh 'docker build -t $DB_IMAGE_NAME-$COMMIT_HASH -f ./db/Dockerfile ./afs-labs-student'
                         docker.withRegistry('https://$HARBOR_REGISTRY', 'ddiaz-harbor-auth') {
@@ -82,7 +84,7 @@ pipeline {
                 
                 }
             }
-                echo "Building database image"
+                
               
             }
             post {
